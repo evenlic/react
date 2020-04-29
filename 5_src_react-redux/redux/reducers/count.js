@@ -1,5 +1,4 @@
-//该函数是为count组件服务的reducer，是真正操作状态的“人”
-//action是动作对象，形如：{type:'??',data:'???'}
+
 import {INCREMENT,DECREMENT} from '../action_types'
 
 let initState = 0 //定义初始状态
