@@ -2,12 +2,10 @@
 
 //引入createStore，用于创建store
 import {createStore,applyMiddleware} from 'redux' 
-//引入总reducer
-import allReducer from './reducers'
+//引入为count服务的reducer
+import countReducer from './reducers/count'
 //引入redux-thunk用于支持异步action
 import thunk from 'redux-thunk'
-//引入composeWithDevTools
-import {composeWithDevTools} from 'redux-devtools-extension'
 
 //创建store，同时指定好为store所服务的reducer,随后暴露
-export default createStore(allReducer,composeWithDevTools(applyMiddleware(thunk)))
+export default createStore(countReducer,applyMiddleware(thunk))

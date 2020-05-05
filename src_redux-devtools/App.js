@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Count from './containers/Count'
 import Person from './containers/Person'
-import Welcome from './containers/Welcome'
+import Welcome from './components/Welcome/Welcome'
 
 export default class App extends Component {
 	render() {

@@ -1,12 +1,12 @@
-//引入react核心库
+/* 
+	该文件是Count的UI组件
+		1.UI的外侧应该包裹一个容器组件，他们是父子关系。
+		2.UI组件中不能使用任何redux的api。
+		3.会通过props接到容器组件传过来的：状态、操作状态的方法。
+*/
 import React, { Component } from 'react'
-//引入connect方法(重点)
-import {connect} from 'react-redux'
-//引入action
-import {increment,decrement,incrementAsync} from '../redux/actions/count'
 
-//Count的UI组件
-class Count extends Component {
+export default class Count extends Component {
 
 	//加
 	increment = ()=>{
@@ -64,29 +64,3 @@ class Count extends Component {
 		)
 	}
 }
-
-//暴露了Count的容器组件
-export default connect(
-	state => ({ //映射状态,state是redux中保存的【总】状态。
-		count:state.number,
-		personCount:state.persons.length
-	}), 
-
-	//原始的写法：
-	/* dispatch => (
-		{
-			increment:(value)=>{dispatch(increment(value))},
-			decrement:(value)=>{dispatch(decrement(value))},
-		}
-	) */
-
-	//精简的写法：
-	{increment,decrement,incrementAsync} //映射操作状态的方法
-
-)(Count)
-
-/* 
-		思考：一个普通的组件要和redux“打交道”，流程是什么？
-*/
-
-
