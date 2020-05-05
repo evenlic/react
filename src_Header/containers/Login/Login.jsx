@@ -1,17 +1,27 @@
 import React, { Component } from 'react'
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {reqLogin} from '../../api'
+import {connect} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+import {saveUserInfo} from '@/redux/actions/login'
+import {reqLogin} from '@/api'
 import logo from './images/logo.png'
 import './css/login.less'
 
 const {Item} = Form
 
-export default class Login extends Component {
+class Login extends Component {
 	//表单提交且验证通过的回调
 	onFinish = async values => {
-		let result = await reqLogin(values)
-		console.log(result);
+		let result = await reqLogin(values) //获取请求结果
+		const {status,data,msg} = result //获取请求结果中的：status,data,msg
+		if(status === 0){
+			//若登录成功
+			message.success('登录成功！',1) //提示
+			this.props.saveUserInfo(data) //向redux和localStorage中保存用户信息
+		}else{
+			message.error(msg)
+		}
 	};
 
 	//密码的验证器（自定义校验）
@@ -25,7 +35,10 @@ export default class Login extends Component {
 		else return Promise.resolve()
 	}
 	
+	//this.props.history适用于在非render函数中跳转
+	//<Redirect>适用于在render函数中做跳转
 	render() {
+		if(this.props.isLogin) return <Redirect to="/admin"/>
 		return (
 			<div className="login">
 				<header>
@@ -34,7 +47,13 @@ export default class Login extends Component {
 				</header>
 				<section>
 					<span className="title">用户登录</span>
-					{
+					{/*
+						用户名/密码的的合法性要求
+							1). 必须输入
+							2). 必须大于等于4位
+							3). 必须小于等于12位
+							4). 必须是英文、数字、下划线组成
+						*/
 						}
 					<Form
 						className="login-form"
@@ -75,3 +94,8 @@ export default class Login extends Component {
 		)
 	}
 }
+
+export default connect(
+	state => ({isLogin:state.userInfo.isLogin}),//映射状态
+	{saveUserInfo} //映射操作状态的方法
+)(Login)

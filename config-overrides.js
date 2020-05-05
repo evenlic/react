@@ -1,4 +1,12 @@
-const { override, fixBabelImports,addLessLoader} = require('customize-cra');
+const { 
+	override, 
+	fixBabelImports,
+	addLessLoader,
+	addWebpackAlias,
+	addDecoratorsLegacy
+} = require('customize-cra');
+
+const {resolve} = require("path");
 
 module.exports = override(
 	fixBabelImports('import', {
@@ -9,5 +17,9 @@ module.exports = override(
   addLessLoader({
 		javascriptEnabled: true,
 		modifyVars: { '@primary-color': '#1DA57A' },
-	 }),
+	}),
+	addWebpackAlias({
+		"@": resolve(__dirname, "src")
+	}),
+	addDecoratorsLegacy() //用于支持装饰器语法
 );
